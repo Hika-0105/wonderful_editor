@@ -14,7 +14,13 @@ module Api::V1
      article = current_user.articles.new(article_params)
      article.save!
      render json: article, serializer: Api::V1::ArticleSerializer
-  end
+   end
+
+    def update
+     article = current_user.articles.find(params[:id])
+     article.update!(article_params)
+     render json: article, serializer: Api::V1::ArticleSerializer
+   end
 
     private
 
