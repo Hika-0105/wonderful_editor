@@ -25,7 +25,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
       let(:article) { create(:article) }
       let(:article_id) { article.id }
 
-      it "指定した記事の値を取得できる" do
+      it "指定した記事の値を取得できる" do # rubocop:disable RSpec/ExampleLength
         subject
         res = JSON.parse(response.body)
         expect(response).to have_http_status(:ok)
@@ -50,7 +50,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
   describe "POST/articles" do
     subject { post(api_v1_articles_path, params: params) }
 
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
+    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) } # rubocop:disable RSpec/AnyInstance
 
     let(:current_user) { create(:user) }
 
@@ -77,7 +77,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
   describe "PATCH /articles/:id" do
     subject { patch(api_v1_article_path(article_id), params: params) }
 
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
+    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) } # rubocop:disable RSpec/AnyInstance
 
     let(:current_user) { create(:user) }
     let(:article_id) { article.id }
@@ -93,7 +93,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
   describe "DELETE /articles/:id" do
     subject { delete(api_v1_article_path(article_id)) }
 
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
+    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) } # rubocop:disable RSpec/AnyInstance
 
     let(:current_user) { create(:user) }
     let(:article_id) { article.id }

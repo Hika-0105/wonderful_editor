@@ -74,3 +74,6 @@ RSpec/ReturnFromStub:
 
 RSpec/LetSetup:
   Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 10
