@@ -37,6 +37,7 @@ module WonderfulEditor
     end
 
     config.api_only = true
+    config.middleware.use ActionDispatch::Flash
 
     # Configuration for the application, engines, and railties goes here.
     #
