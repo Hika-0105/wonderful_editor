@@ -6,7 +6,7 @@ RSpec.describe "Api::V1::Auth::Registrations", type: :request do
 
     context "適切なパラメータが送信された時" do
       let(:params) { attributes_for(:user) }
-      fit "ユーザーが新規登録される" do
+      it "ユーザーが新規登録される" do
         expect { subject }.to change { User.count }.by(1)
         res = JSON.parse(response.body)
         expect(response).to have_http_status(:ok)
