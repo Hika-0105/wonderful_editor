@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::Auth::Registrations", type: :request do
-  describe "POST/registrations" do
+  describe "POST/v1/auth" do
     subject { post(api_v1_user_registration_path, params: params) }
 
     context "適切なパラメータが送信された時" do
@@ -9,9 +9,6 @@ RSpec.describe "Api::V1::Auth::Registrations", type: :request do
       it "ユーザーが新規登録される" do
         expect { subject }.to change { User.count }.by(1)
         res = JSON.parse(response.body)
-        expect(res["name"]).to eq params[:name]
-        expect(res["email"]).to eq params[:email]
-        expect(res["password"]).to eq params[:password]
         expect(response).to have_http_status(:ok)
         expect(res["data"]["email"]).to eq(User.last.email)
       end
