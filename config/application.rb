@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 module WonderfulEditor
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 6.0
     config.generators do |g|
       g.template_engine false
       g.javascripts false
