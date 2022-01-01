@@ -48,21 +48,24 @@ RSpec.describe "Api::V1::Articles", type: :request do
   end
 
   describe "POST/articles" do
-    subject { post(api_v1_articles_path, params: params) }
-
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) } # rubocop:disable RSpec/AnyInstance
+    subject { post(api_v1_articles_path, params: params, headers: headers) }
 
     let(:current_user) { create(:user) }
+    let(:headers) { current_user.create_new_auth_token }
 
     context "適切なパラメータが送信された時" do
       let(:params) { { article: attributes_for(:article) } }
 
-      it "レコードを作成する" do
+      it "レコードを作成する" do # rubocop:disable RSpec/ExampleLength
         expect { subject }.to change { Article.where(user_id: current_user.id).count }.by(1)
         res = JSON.parse(response.body)
         expect(res["title"]).to eq params[:article][:title]
         expect(res["body"]).to eq params[:article][:body]
         expect(response).to have_http_status(:ok)
+        header = response.header
+        expect(header["access-token"]).to be_present
+        expect(header["client"]).to be_present
+        expect(header["uid"]).to be_present
       end
     end
 
@@ -75,29 +78,31 @@ RSpec.describe "Api::V1::Articles", type: :request do
   end
 
   describe "PATCH /articles/:id" do
-    subject { patch(api_v1_article_path(article_id), params: params) }
-
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) } # rubocop:disable RSpec/AnyInstance
+    subject { patch(api_v1_article_path(article_id), params: params, headers: headers) }
 
     let(:current_user) { create(:user) }
     let(:article_id) { article.id }
     let(:article) { create(:article, user: current_user) }
     let(:params) { { article: { title: Faker::Lorem.word, created_at: 1.day.ago } } }
+    let(:headers) { current_user.create_new_auth_token }
 
     it "ログインユーザーの記事の修正を行う" do
       expect { subject }.to change { article.reload.title }.from(article.title).to(params[:article][:title]) &
                             not_change { article.reload.created_at }
+      header = response.header
+      expect(header["access-token"]).to be_present
+      expect(header["client"]).to be_present
+      expect(header["uid"]).to be_present
     end
   end
 
   describe "DELETE /articles/:id" do
-    subject { delete(api_v1_article_path(article_id)) }
-
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) } # rubocop:disable RSpec/AnyInstance
+    subject { delete(api_v1_article_path(article_id), headers: headers) }
 
     let(:current_user) { create(:user) }
     let(:article_id) { article.id }
     let!(:article) { create(:article, user: current_user) }
+    let(:headers) { current_user.create_new_auth_token }
 
     it "ログインユーザーの記事の削除を行う" do
       expect { subject }.to change { Article.where(user_id: current_user.id).count }.by(-1)
