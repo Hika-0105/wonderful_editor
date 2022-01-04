@@ -16,7 +16,6 @@ RSpec.describe Article, type: :model do
       expect(article).not_to be_valid
     end
   end
-end
 
   context "status = draftの時" do
     let(:article) { build(:article, :draft) }
@@ -35,3 +34,4 @@ end
       expect(article.status).to eq "published"
     end
   end
+end
