@@ -84,8 +84,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
     context "記事を下書きで作成する時" do
       let(:params) { { article: attributes_for(:article) } }
 
-      fit "下書きを作成する" do # rubocop:disable RSpec/ExampleLength
-        binding.pry
+      it "下書きを作成する" do # rubocop:disable RSpec/ExampleLength
         expect { subject }.to change { Article.where(user_id: current_user.id).count }.by(1)
         res = JSON.parse(response.body)
         expect(res["title"]).to eq params[:article][:title]
