@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Api::V1::Articles::Drafts", type: :request do
   let(:current_user) { create(:user) }
@@ -30,25 +30,25 @@ RSpec.describe "Api::V1::Articles::Drafts", type: :request do
       let(:article_id) { article.id }
       let(:article) { create(:article, :draft, user: current_user) }
 
-        it "下書きの詳細を取得できる" do
-          subject
-          res = JSON.parse(response.body)
-          expect(response).to have_http_status(:ok)
-          expect(res["id"]).to eq article.id
-          expect(res["title"]).to eq article.title
-          expect(res["body"]).to eq article.body
-          expect(res["status"]).to eq article.status
-          expect(res["updated_at"]).to be_present
-          expect(res["user"]["id"]).to eq article.user.id
-          expect(res["user"].keys).to eq ["id", "name", "email"]
-        end
+      it "下書きの詳細を取得できる" do # rubocop:disable RSpec/ExampleLength
+        subject
+        res = JSON.parse(response.body)
+        expect(response).to have_http_status(:ok)
+        expect(res["id"]).to eq article.id
+        expect(res["title"]).to eq article.title
+        expect(res["body"]).to eq article.body
+        expect(res["status"]).to eq article.status
+        expect(res["updated_at"]).to be_present
+        expect(res["user"]["id"]).to eq article.user.id
+        expect(res["user"].keys).to eq ["id", "name", "email"]
       end
+    end
 
     context "指定した下書きが他のユーザーが書いた下書きのとき" do
       let(:article_id) { article.id }
       let(:article) { create(:article, :draft) }
 
-      fit "下書きが見つからない" do
+      it "下書きが見つからない" do
         expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
