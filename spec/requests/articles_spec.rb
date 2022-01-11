@@ -45,7 +45,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
       let(:article_id) { article.id }
 
       it "指定した記事の値を取得できない" do
-        expect(subject).to raise_error(ActiveRecord::RecordNotFound)
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
