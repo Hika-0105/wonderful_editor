@@ -1,1 +1,2 @@
-# wonderful_editor
+概要
+wonderful_editorは記事を作成するサービスです。アカウントを作成すれば、下書き機能やマイページ機能も使用できます。
