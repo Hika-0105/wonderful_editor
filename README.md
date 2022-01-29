@@ -16,4 +16,6 @@ wonderful_editorは記事を作成するサービスです。アカウントを�
 
 ・DB: PostgreSQL
 
+## 機能
+
 
